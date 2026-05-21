@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducing Smart Tokens</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0e1a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 36px 50px;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .header .intro {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #29B5E8;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 4.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #29B5E8, #6dd5fa, #29B5E8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+            text-shadow: 0 0 80px #29B5E833;
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            color: #c0d8e8;
+            font-style: italic;
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .header .definition {
+            font-size: 1rem;
+            color: #7899aa;
+            max-width: 780px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            border-top: 1px solid #ffffff11;
+            padding-top: 14px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* TOKEN COMPARISON */
+        .token-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .token-panel {
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .token-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+
+        .panel-generic {
+            background: linear-gradient(180deg, #1a1520, #120e18);
+            border: 1px solid #ff4d4d22;
+        }
+        .panel-generic::before { background: linear-gradient(90deg, #ff4d4d, #ff8844); }
+
+        .panel-smart {
+            background: linear-gradient(180deg, #0f1f2e, #0a1520);
+            border: 1px solid #29B5E833;
+        }
+        .panel-smart::before { background: linear-gradient(90deg, #29B5E8, #6dd5fa); }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+        .panel-generic .panel-title { color: #ff8888; }
+        .panel-smart .panel-title { color: #6dd5fa; }
+
+        .prompt-box {
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            height: 62px;
+            position: relative;
+            overflow: hidden;
+        }
+        .panel-generic .prompt-box {
+            background: #ff4d4d08;
+            border: 1px solid #ff4d4d22;
+        }
+        .panel-smart .prompt-box {
+            background: #29B5E808;
+            border: 1px solid #29B5E822;
+        }
+
+        .prompt-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4a6a82;
+            margin-bottom: 6px;
+        }
+
+        .prompt-text {
+            font-size: 0.82rem;
+            font-weight: 500;
+            line-height: 1.4;
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            top: 30px;
+            opacity: 0;
+            animation: fadePrompt 9s infinite;
+        }
+        .panel-generic .prompt-text { color: #cc9999; }
+        .panel-smart .prompt-text { color: #88ccdd; }
+
+        .prompt-text:nth-child(2) { animation-delay: 0s; }
+        .prompt-text:nth-child(3) { animation-delay: 3s; }
+        .prompt-text:nth-child(4) { animation-delay: 6s; }
+
+        @keyframes fadePrompt {
+            0%, 5% { opacity: 0; transform: translateY(6px); }
+            10%, 28% { opacity: 1; transform: translateY(0); }
+            33%, 100% { opacity: 0; transform: translateY(-6px); }
+        }
+
+        .thinking-section {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            min-height: 130px;
+        }
+        .panel-generic .thinking-section {
+            background: #ff4d4d06;
+            border: 1px solid #ff4d4d15;
+        }
+        .panel-smart .thinking-section {
+            background: #29B5E806;
+            border: 1px solid #29B5E815;
+        }
+
+        .thinking-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .thinking-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .panel-generic .thinking-label { color: #ff6b6b; }
+        .panel-smart .thinking-label { color: #29B5E8; }
+
+        .token-counter {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .panel-generic .token-counter {
+            background: #ff4d4d20;
+            color: #ff6b6b;
+        }
+        .panel-smart .token-counter {
+            background: #29B5E820;
+            color: #29B5E8;
+        }
+
+        .thinking-questions {
+            font-size: 0.75rem;
+            line-height: 1.7;
+            color: #7899aa;
+            font-style: italic;
+        }
+
+        .thinking-questions .q {
+            opacity: 0;
+            animation: typeQuestion 9s infinite;
+            display: block;
+        }
+        .thinking-questions .q:nth-child(1) { animation-delay: 0.3s; }
+        .thinking-questions .q:nth-child(2) { animation-delay: 1.2s; }
+        .thinking-questions .q:nth-child(3) { animation-delay: 2.1s; }
+        .thinking-questions .q:nth-child(4) { animation-delay: 3.0s; }
+
+        @keyframes typeQuestion {
+            0%, 3% { opacity: 0; }
+            6%, 80% { opacity: 1; }
+            90%, 100% { opacity: 0; }
+        }
+
+        .context-provided {
+            font-size: 0.78rem;
+            color: #6dd5fa;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .context-provided .check {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #29B5E825;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .live-counter { margin-top: auto; }
+
+        .counter-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4a6a82;
+            margin-bottom: 8px;
+        }
+
+        .counter-value {
+            font-size: 2rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 10px;
+        }
+
+        .generic-counter .counter-value {
+            color: #ff4d4d;
+            animation: countUpGeneric 4s ease-out infinite;
+        }
+
+        .smart-counter .counter-value {
+            color: #29B5E8;
+            animation: countUpSmart 4s ease-out infinite;
+        }
+
+        .counter-bar {
+            height: 6px;
+            background: #ffffff08;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .counter-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .generic-bar-fill {
+            background: linear-gradient(90deg, #ff4d4d, #ff8888);
+            width: 0%;
+            animation: fillGenericBar 4s ease-out infinite;
+        }
+
+        .smart-bar-fill {
+            background: linear-gradient(90deg, #29B5E8, #6dd5fa);
+            width: 0%;
+            animation: fillSmartBar 4s ease-out infinite;
+        }
+
+        @keyframes fillGenericBar {
+            0% { width: 0%; }
+            80%, 100% { width: 100%; }
+        }
+
+        @keyframes fillSmartBar {
+            0% { width: 0%; }
+            30%, 100% { width: 0.8%; }
+        }
+
+        /* ARCHITECTURE FLOW */
+        .architecture-panel {
+            border-radius: 14px;
+            border: 1px solid #ffffff11;
+            background: #0f1320;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arch-panel-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4a6a82;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .arch-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .arch-flow-wrapper {
+            position: relative;
+            min-height: 380px;
+        }
+
+        .arch-flow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            overflow: hidden;
+        }
+
+        .arch-flow-generic { animation: flipGeneric 20s infinite; }
+        .arch-flow-smart { animation: flipSmart 20s infinite; }
+
+        @keyframes flipGeneric {
+            0%, 3% { opacity: 0; }
+            5%, 45% { opacity: 1; }
+            48%, 100% { opacity: 0; }
+        }
+
+        @keyframes flipSmart {
+            0%, 50% { opacity: 0; }
+            53%, 95% { opacity: 1; }
+            98%, 100% { opacity: 0; }
+        }
+
+        .token-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            filter: blur(0px);
+        }
+
+        .token-dot-generic {
+            background: #ff4d4d;
+            box-shadow: 0 0 8px #ff4d4d, 0 0 16px #ff4d4d88;
+            animation: flowGenericDot 7s ease-in-out infinite;
+        }
+
+        .token-dot-smart {
+            width: 10px;
+            height: 10px;
+            animation: flowSmartDot 7s ease-in-out infinite;
+            background: #fbbf24;
+            box-shadow: 0 0 8px #fbbf24, 0 0 16px #fbbf2488;
+        }
+
+        @keyframes flowGenericDot {
+            0% { top: 0px; opacity: 0; }
+            5% { top: 0px; opacity: 1; }
+            25% { top: 70px; }
+            50% { top: 150px; }
+            75% { top: 230px; }
+            90% { top: 310px; opacity: 1; }
+            100% { top: 340px; opacity: 0; }
+        }
+
+        @keyframes flowSmartDot {
+            0% { top: 0px; opacity: 0; background: #fbbf24; box-shadow: 0 0 8px #fbbf24, 0 0 16px #fbbf2488; }
+            5% { top: 0px; opacity: 1; background: #fbbf24; box-shadow: 0 0 8px #fbbf24, 0 0 16px #fbbf2488; }
+            30% { top: 70px; background: #fbbf24; box-shadow: 0 0 8px #fbbf24, 0 0 16px #fbbf2488; }
+            50% { top: 130px; background: #29B5E8; box-shadow: 0 0 8px #29B5E8, 0 0 16px #29B5E888; }
+            75% { top: 230px; background: #29B5E8; box-shadow: 0 0 8px #29B5E8, 0 0 16px #29B5E888; }
+            90% { top: 310px; opacity: 1; background: #29B5E8; box-shadow: 0 0 8px #29B5E8, 0 0 16px #29B5E888; }
+            100% { top: 340px; opacity: 0; background: #29B5E8; box-shadow: 0 0 8px #29B5E8, 0 0 16px #29B5E888; }
+        }
+
+        .arch-node {
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-align: center;
+            width: 85%;
+        }
+
+        .arch-flow-generic .arch-node {
+            background: #1a1520;
+            border: 1px solid #ffffff20;
+            color: #8899aa;
+        }
+
+        .arch-flow-smart .arch-node {
+            background: #0f1f2e;
+            border: 1px solid #29B5E844;
+            color: #ffffff;
+        }
+
+        .arch-flow-smart .node-data { box-shadow: 0 0 15px #29B5E820; }
+
+        .arch-arrow-down {
+            font-size: 1.1rem;
+            margin: 8px 0;
+        }
+        .arch-flow-generic .arch-arrow-down { color: #555; }
+        .arch-flow-smart .arch-arrow-down { color: #29B5E8; }
+
+        .arch-badges {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .arch-badge {
+            font-size: 0.55rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #29B5E825;
+            color: #29B5E8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .arch-verdict {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 14px 18px;
+            border-radius: 10px;
+            width: 85%;
+        }
+
+        .arch-flow-generic .arch-verdict {
+            color: #ff4d4d;
+            background: #ff4d4d12;
+            border: 2px solid #ff4d4d55;
+            animation: glowRed 2s ease-in-out infinite;
+        }
+
+        .arch-flow-smart .arch-verdict {
+            color: #29B5E8;
+            background: #29B5E812;
+            border: 2px solid #29B5E866;
+            animation: glowBlue 2s ease-in-out infinite;
+        }
+
+        @keyframes glowRed {
+            0%, 100% { box-shadow: 0 0 10px #ff4d4d22; }
+            50% { box-shadow: 0 0 30px #ff4d4d44; }
+        }
+
+        @keyframes glowBlue {
+            0%, 100% { box-shadow: 0 0 10px #29B5E822; }
+            50% { box-shadow: 0 0 35px #29B5E855; }
+        }
+
+        .verdict-icon {
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        /* COMPETITION SECTION */
+        .competition-section {
+            margin-top: 30px;
+            border-top: 1px solid #ffffff11;
+            padding-top: 28px;
+        }
+
+        .competition-header {
+            margin-bottom: 20px;
+        }
+
+        .competition-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .competition-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .comp-left {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .comp-screenshots {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .comp-screenshot {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ffffff15;
+            flex: 1;
+            position: relative;
+            height: 160px;
+        }
+
+        .comp-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .comp-screenshot-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, #0a0e1acc);
+            padding: 8px 10px 6px;
+            font-size: 0.65rem;
+            color: #ff8888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .comp-message {
+            background: #1a1520;
+            border: 1px solid #ff4d4d22;
+            border-radius: 10px;
+            padding: 14px 18px;
+            text-align: center;
+        }
+
+        .comp-message p {
+            font-size: 0.9rem;
+            color: #c0d8e8;
+            line-height: 1.5;
+        }
+
+        .comp-message strong {
+            color: #29B5E8;
+        }
+
+        /* Win the Data - Right Side */
+        .comp-right {
+            background: linear-gradient(180deg, #0f1f2e, #0a1520);
+            border: 1px solid #29B5E833;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comp-right-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #29B5E8;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .ingestion-flow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .flow-box {
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .flow-box-source {
+            background: #ffffff08;
+            border: 1px solid #ffffff20;
+            color: #a0b4c8;
+            font-size: 0.85rem;
+            min-width: 100px;
+            min-height: 80px;
+        }
+
+        .flow-box-ingest {
+            background: #29B5E810;
+            border: 1px solid #29B5E833;
+            flex: 1;
+        }
+
+        .flow-box-ingest .ingest-items {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .flow-box-ingest .ingest-item {
+            font-size: 0.7rem;
+            color: #88ccdd;
+            padding: 4px 8px;
+            background: #29B5E808;
+            border-radius: 4px;
+        }
+
+        .flow-box-snowflake {
+            background: #29B5E812;
+            border: 1px solid #29B5E844;
+            flex: 1;
+        }
+
+        .flow-box-snowflake .sf-items {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .flow-box-snowflake .sf-item {
+            font-size: 0.7rem;
+            color: #6dd5fa;
+            padding: 4px 8px;
+            background: #29B5E808;
+            border-radius: 4px;
+        }
+
+        .flow-single-arrow {
+            color: #29B5E8;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .comp-callout {
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #29B5E818, #29B5E810);
+            border: 1px solid #29B5E866;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+
+        .system-alert {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: #ff4d4d15;
+            border: 1px solid #ff4d4d55;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ff6b6b;
+        }
+
+        .alert-icon { font-size: 1rem; }
+
+        .alert-blink {
+            animation: pulseAlert 1s ease-in-out infinite;
+            color: #ff4d4d;
+        }
+
+        @keyframes pulseAlert {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .competition-intro {
+            margin-bottom: 20px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #ff4d4d08, #ff880008);
+            border: 1px solid #ff4d4d22;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #ddeeff;
+            line-height: 1.6;
+        }
+
+        .chain-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(180deg, #f8fafc, #eef2f7);
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .chain-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .chain-layout {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chain-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .chain-block {
+            flex: 1;
+            padding: 16px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .chain-block-agent { border-color: #94a3b8; }
+        .chain-block-semantic {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+        .chain-block-snowflake {
+            border-color: #29B5E8;
+            background: #f0f9ff;
+        }
+
+        .chain-block-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            color: #334155;
+        }
+
+        .chain-block-semantic .chain-block-title { color: #c2410c; }
+        .chain-block-snowflake .chain-block-title { color: #0c7bb3; }
+
+        .chain-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.68rem;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        .chain-list li::before {
+            content: "•";
+            margin-right: 6px;
+            color: #94a3b8;
+        }
+
+        .chain-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            gap: 4px;
+        }
+
+        .chain-arrow-line {
+            font-size: 1.4rem;
+            color: #94a3b8;
+        }
+
+        .chain-warning {
+            font-size: 0.9rem;
+            animation: pulseWarning 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .chain-questions {
+            background: #ffffff;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .chain-questions-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+
+        .chain-questions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chain-questions li {
+            font-size: 0.68rem;
+            color: #78350f;
+            padding: 5px 0;
+            border-bottom: 1px solid #fef3c7;
+            line-height: 1.5;
+        }
+
+        .chain-questions li:last-child { border-bottom: none; }
+
+        .chain-questions li::before {
+            content: "?";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            background: #fef3c7;
+            border-radius: 50%;
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-right: 8px;
+        }
+
+        .cost-strip {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .cost-strip-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .cost-providers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .cost-provider {
+            text-align: center;
+            padding: 12px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .cost-provider-risk {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        .cost-provider-name {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .cost-icons {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .cost-details {
+            font-size: 0.55rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .cost-arrow {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            padding: 0 10px;
+        }
+
+        .chain-banner {
+            text-align: center;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #fef2f2, #fff7ed);
+            border: 1px solid #fca5a5;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #991b1b;
+            line-height: 1.6;
+        }
+        .context-loss-section {
+            margin-top: 30px;
+            padding: 28px;
+            background: linear-gradient(180deg, #0a1628, #0d1f35);
+            border: 1px solid #ffffff15;
+            border-radius: 16px;
+        }
+
+        .context-loss-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+
+        .context-loss-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cl-column {
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .cl-concerns {
+            background: linear-gradient(180deg, #1a2a3d, #0f1c2e);
+            border: 1px solid #4a6a8266;
+            box-shadow: 0 4px 20px #00000044;
+        }
+
+        .cl-risk {
+            background: #ff4d4d08;
+            border: 1px solid #ff4d4d33;
+        }
+
+        .cl-answer {
+            background: #29B5E808;
+            border: 1px solid #29B5E833;
+        }
+
+        .cl-column-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+        }
+
+        .cl-concerns .cl-column-title { color: #ffffff; }
+        .cl-risk .cl-column-title { color: #ff6b6b; }
+        .cl-answer .cl-column-title { color: #29B5E8; }
+
+        .cl-quote {
+            font-size: 0.82rem;
+            color: #ffffff;
+            font-style: italic;
+            padding: 12px 14px;
+            background: #ffffff0d;
+            border-left: 3px solid #fbbf24;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .cl-summary {
+            font-size: 0.78rem;
+            color: #c0d8e8;
+            margin-top: 14px;
+            line-height: 1.5;
+            padding: 10px 12px;
+            background: #fbbf2410;
+            border-radius: 8px;
+            border: 1px solid #fbbf2433;
+        }
+
+        .cl-danger {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ff4d4d;
+            padding: 8px 14px;
+            background: #ff4d4d15;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 12px;
+            animation: pulseAlert 2s ease-in-out infinite;
+        }
+
+        .cl-risk-text {
+            font-size: 0.75rem;
+            color: #dda8a8;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .cl-risk-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cl-risk-list li {
+            font-size: 0.72rem;
+            color: #cc8888;
+            padding: 5px 0;
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .cl-risk-list li::before {
+            content: "×";
+            position: absolute;
+            left: 0;
+            color: #ff4d4d;
+            font-weight: 700;
+        }
+
+        .cl-ask {
+            font-size: 0.8rem;
+            color: #c0d8e8;
+            padding: 10px 14px;
+            background: #29B5E810;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .cl-answer-text {
+            font-size: 0.72rem;
+            color: #8cb8d0;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .cl-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .cl-benefit {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #29B5E8;
+            padding: 6px 10px;
+            background: #29B5E812;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .cl-enablement {
+            font-size: 0.68rem;
+            color: #6699aa;
+            line-height: 1.5;
+            border-top: 1px solid #ffffff10;
+            padding-top: 10px;
+        }
+
+        .cl-core-message {
+            text-align: center;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #29B5E810, #29B5E808);
+            border: 1px solid #29B5E844;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        .dcg-section {
+            margin-top: 40px;
+            padding: 32px;
+            background: linear-gradient(180deg, #0a1628, #0d1f35);
+            border: 1px solid #ffffff12;
+            border-radius: 16px;
+        }
+
+        .dcg-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 28px;
+        }
+
+        .dcg-pillars {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .dcg-pillar {
+            padding: 22px;
+            border-radius: 12px;
+        }
+
+        .pillar-storage {
+            background: #1e3a5f15;
+            border: 1px solid #29B5E833;
+        }
+
+        .pillar-context {
+            background: #fbbf2408;
+            border: 1px solid #fbbf2433;
+        }
+
+        .pillar-governance {
+            background: #10b98115;
+            border: 1px solid #10b98133;
+        }
+
+        .pillar-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+
+        .pillar-storage .pillar-header {
+            color: #29B5E8;
+            border-color: #29B5E8;
+        }
+
+        .pillar-context .pillar-header {
+            color: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        .pillar-governance .pillar-header {
+            color: #10b981;
+            border-color: #10b981;
+        }
+
+        .pillar-overthink-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .pillar-body {
+            font-size: 0.75rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+        }
+
+        .dcg-closing-loud {
+            padding: 24px 28px;
+            background: linear-gradient(135deg, #29B5E820, #29B5E810);
+            border: 2px solid #29B5E866;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.7;
+            text-align: center;
+            box-shadow: 0 0 30px #29B5E815, 0 4px 20px #00000044;
+        }
+
+        .pitch-section {
+            margin-top: 40px;
+            padding: 36px;
+            background: linear-gradient(180deg, #0d1a2e, #0a1222);
+            border: 2px solid #29B5E844;
+            border-radius: 16px;
+            box-shadow: 0 0 40px #29B5E810;
+        }
+
+        .pitch-header {
+            font-size: 2.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #29B5E8;
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid #29B5E8;
+        }
+
+        .pitch-urgency {
+            margin-bottom: 32px;
+        }
+
+        .pitch-urgency-line {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+
+        .pitch-urgency-sub {
+            font-size: 0.85rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .pitch-snowflake {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #29B5E8;
+            margin-bottom: 10px;
+        }
+
+        .pitch-value {
+            font-size: 0.85rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+        }
+
+        .pitch-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 20px 24px;
+            background: #ffffff06;
+            border: 1px solid #ffffff15;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .pitch-flow-step {
+            padding: 10px 16px;
+            background: #1a2d44;
+            border: 1px solid #29B5E833;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        .pitch-flow-arrow {
+            font-size: 1.2rem;
+            color: #29B5E8;
+            padding: 0 10px;
+            font-weight: 700;
+        }
+
+        .pitch-flow-highlight {
+            background: #29B5E820;
+            border-color: #29B5E8;
+            color: #29B5E8;
+        }
+
+        .pitch-flow-result {
+            background: linear-gradient(135deg, #10b98120, #29B5E820);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .pitch-callouts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            background: #ff4d4d08;
+            border: 1px solid #ff4d4d33;
+            border-radius: 12px;
+        }
+
+        .pitch-callout {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff6b6b;
+        }
+
+        .pitch-callout-cta {
+            color: #29B5E8;
+            font-size: 1.1rem;
+            margin-top: 6px;
+        }
+
+        .pitch-copy, .pitch-prove, .pitch-objections {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            background: #ffffff06;
+            border: 1px solid #ffffff12;
+            border-radius: 12px;
+        }
+
+        .pitch-copy-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #29B5E8;
+            margin-bottom: 14px;
+        }
+
+        .pitch-copy p, .pitch-prove p {
+            font-size: 0.8rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .pitch-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+        }
+
+        .pitch-checklist li {
+            font-size: 0.78rem;
+            color: #c0d8e8;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            background: #ffffff08;
+            border-radius: 6px;
+            border-left: 3px solid #29B5E8;
+        }
+
+        .pitch-objection {
+            margin-bottom: 18px;
+            padding: 16px;
+            background: #ffffff08;
+            border-radius: 10px;
+        }
+
+        .pitch-objection:last-child {
+            margin-bottom: 0;
+        }
+
+        .pitch-objection-q {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fbbf24;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .pitch-objection-a {
+            font-size: 0.78rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+        }
+
+        .pitch-test {
+            margin-bottom: 28px;
+            padding: 20px 24px;
+            background: #ffffff06;
+            border: 1px solid #ffffff12;
+            border-radius: 12px;
+        }
+
+        .pitch-test-sides {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .pitch-test-side {
+            padding: 20px;
+            border-radius: 10px;
+            background: #ffffff08;
+        }
+
+        .pitch-test-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .pitch-test-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff88;
+            margin-bottom: 12px;
+        }
+
+        .pitch-test-quote {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fbbf24;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .pitch-test-answer p {
+            font-size: 0.8rem;
+            color: #c0d8e8;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .pitch-test-answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pitch-final {
+            padding: 28px 32px;
+            background: linear-gradient(135deg, #29B5E818, #10b98112);
+            border: 2px solid #29B5E866;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 0 30px #29B5E815;
+        }
+
+        .pitch-final-line {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pitch-final-cta {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #29B5E8;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="slide">
+
+        <div class="header">
+            <div class="intro">Introducing</div>
+            <h1>Smart Tokens</h1>
+            <p class="subtitle">It's time to enable enterprise AI to think less and know more.</p>
+            <p class="definition">Economically advantageous tokens metered exclusively through the Cortex REST API and leveraging at least one semantic view.</p>
+        </div>
+
+        <div class="main-content">
+
+            <div class="token-comparison">
+                <div class="token-panel panel-generic">
+                    <div class="panel-title">Generic Token</div>
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Where are we seeing delays in the supply chain?</div>
+                        <div class="prompt-text">What changed in customer behavior this quarter?</div>
+                        <div class="prompt-text">Are we on track to hit our quarterly forecast?</div>
+                    </div>
+                    <div class="thinking-section">
+                        <div class="thinking-header">
+                            <div class="thinking-label">Overthinking...</div>
+                        </div>
+                        <div class="thinking-questions">
+                            <span class="q">"What do I have access to?"</span>
+                            <span class="q">"What are the relationships between these tables?"</span>
+                            <span class="q">"How is this metric calculated?"</span>
+                            <span class="q">"Which schema has the right version?"</span>
+                        </div>
+                    </div>
+                    <div class="live-counter generic-counter">
+                        <div class="counter-label">Tokens Used</div>
+                        <div class="counter-value" id="generic-count">47,291</div>
+                        <div class="counter-bar">
+                            <div class="counter-bar-fill generic-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-panel panel-smart">
+                    <div class="panel-title">Smart Token</div>
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Where are we seeing delays in the supply chain?</div>
+                        <div class="prompt-text">What changed in customer behavior this quarter?</div>
+                        <div class="prompt-text">Are we on track to hit our quarterly forecast?</div>
+                    </div>
+                    <div class="thinking-section">
+                        <div class="thinking-header">
+                            <div class="thinking-label">Context provided</div>
+                        </div>
+                        <div class="context-provided">
+                            <span class="check">✓</span> Semantics, relationships & governance already resolved
+                        </div>
+                    </div>
+                    <div class="live-counter smart-counter">
+                        <div class="counter-label">Tokens Used</div>
+                        <div class="counter-value" id="smart-count">382</div>
+                        <div class="counter-bar">
+                            <div class="counter-bar-fill smart-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="architecture-panel">
+                <div class="arch-panel-title">Token Flow</div>
+                <div class="arch-container">
+                    <div class="arch-flow-wrapper">
+                        <div class="arch-flow arch-flow-generic">
+                            <div class="token-dot token-dot-generic"></div>
+                            <div class="arch-node">AI Agent</div>
+                            <div class="arch-arrow-down">↓</div>
+                            <div class="arch-node">Connection</div>
+                            <div class="arch-arrow-down">↓</div>
+                            <div class="arch-node">Gen SQL</div>
+                            <div class="arch-arrow-down">↓</div>
+                            <div class="arch-node">Snowflake Data</div>
+                            <div class="arch-verdict">
+                                <span class="verdict-icon">✗</span> Generic Token
+                            </div>
+                        </div>
+                        <div class="arch-flow arch-flow-smart">
+                            <div class="token-dot token-dot-smart"></div>
+                            <div class="arch-node">AI Agent</div>
+                            <div class="arch-arrow-down">↓</div>
+                            <div class="arch-node">Cortex REST API</div>
+                            <div class="arch-arrow-down">↓</div>
+                            <div class="arch-node node-data">
+                                Snowflake Data
+                                <div class="arch-badges">
+                                    <span class="arch-badge">Semantics</span>
+                                    <span class="arch-badge">Search</span>
+                                    <span class="arch-badge">Governance</span>
+                                </div>
+                            </div>
+                            <div class="arch-verdict">
+                                <span class="verdict-icon">✓</span> Qualifies as Smart Token
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COMPETITION SECTION -->
+        <div class="competition-section">
+            <div class="competition-header">
+                <div class="competition-title">Competition</div>
+            </div>
+
+            <div class="competition-content">
+                <div class="comp-left">
+                    <div class="comp-screenshots">
+                        <div class="comp-screenshot">
+                            <img src="databricks.png" alt="Databricks - The database your AI agents deserve">
+                            <div class="comp-screenshot-overlay">Their positioning</div>
+                        </div>
+                        <div class="comp-screenshot">
+                            <img src="clickhouse.png" alt="ClickHouse - The leading database for AI">
+                            <div class="comp-screenshot-overlay">Their positioning</div>
+                        </div>
+                    </div>
+                    <div class="comp-message">
+                        <p>They want to be <strong>the database for AI</strong>. We want to be <strong>the platform for enterprise AI</strong> — data, context, governance, and execution in one place.</p>
+                    </div>
+                </div>
+
+                <div class="comp-right">
+                    <div class="comp-right-title">Win the Data</div>
+                    <div class="ingestion-flow">
+                        <div class="flow-box flow-box-source">Customer<br>Data</div>
+                        <div class="flow-single-arrow">→</div>
+                        <div class="flow-box flow-box-ingest">
+                            <div class="ingest-items">
+                                <div class="ingest-item">Snowpipe</div>
+                                <div class="ingest-item">OpenFlow</div>
+                                <div class="ingest-item">Streaming</div>
+                                <div class="ingest-item">ETL Partners</div>
+                            </div>
+                        </div>
+                        <div class="flow-single-arrow">→</div>
+                        <div class="flow-box flow-box-snowflake">
+                            <div class="sf-items">
+                                <div class="sf-item">Transactional</div>
+                                <div class="sf-item">Unstructured</div>
+                                <div class="sf-item">Interactive</div>
+                                <div class="sf-item">Relational</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comp-callout">Snowflake makes it easy for enterprises to bring together all their data at any speed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT IF WE LOSE THE CONTEXT -->
+        <div class="context-loss-section">
+            <div class="context-loss-title">Ok we won the data, what if we lose the context?</div>
+
+            <div class="context-loss-grid">
+                <div class="cl-column cl-concerns">
+                    <div class="cl-column-title">Customer Concerns</div>
+                    <div class="cl-quote">"We are spending a lot of tokens just to do analysis."</div>
+                    <div class="cl-quote">"We do not fully trust the answers."</div>
+                    <div class="cl-quote">"We need to lower costs without losing business value."</div>
+                    <div class="cl-summary">Customers feel pressure around <strong>cost</strong>, <strong>trust</strong>, and <strong>accuracy</strong>.</div>
+                </div>
+
+                <div class="cl-column cl-risk">
+                    <div class="cl-column-title">The Competitor Risk</div>
+                    <div class="cl-danger">⚠️ Danger</div>
+                    <p class="cl-risk-text">These concerns push customers to evaluate third-party semantic layers or other platforms.</p>
+                    <p class="cl-risk-text">When context moves outside Snowflake, the customer adds more complexity:</p>
+                    <ul class="cl-risk-list">
+                        <li>Another platform to manage</li>
+                        <li>Another governance layer</li>
+                        <li>Another contract</li>
+                        <li>Another place where data and business definitions become inconsistent</li>
+                    </ul>
+                </div>
+
+                <div class="cl-column cl-answer">
+                    <div class="cl-column-title">Snowflake Smart Tokens</div>
+                    <div class="cl-ask">Before customers evaluate third-party semantic layers — ask: <strong>Have you tried Smart Tokens?</strong></div>
+                    <p class="cl-answer-text">Customers keep doing what they already do. No process change. Continue using AI coding agents and chatbots against Snowflake — but use Smart Tokens through the Cortex REST API instead of generic inference tokens.</p>
+                    <div class="cl-benefits">
+                        <div class="cl-benefit">Lower inference costs</div>
+                        <div class="cl-benefit">Reduce hallucinations</div>
+                        <div class="cl-benefit">Improve trust in answers</div>
+                        <div class="cl-benefit">Keep data governed & auditable</div>
+                    </div>
+                    <p class="cl-enablement">SEs and FDEs can quickly configure the experience, use <strong>Semantic View Autopilot</strong> to show value fast, and build on that momentum.</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- WHY DATA CONTEXT GOVERNANCE MATTER -->
+        <div class="dcg-section">
+            <div class="dcg-title">You keep talking about data, context, and governance. Why do they matter so much to LLMs?</div>
+
+            <div class="dcg-pillars">
+                <div class="dcg-pillar pillar-storage">
+                    <div class="pillar-header">Fragmented Storage</div>
+                    <div class="pillar-overthink-label">Models Overthink</div>
+                    <div class="pillar-body">Models overthink by spending additional reasoning cycles determining where to retrieve information, reconciling fragmented datasets, and resolving conflicting versions of truth across systems.</div>
+                </div>
+                <div class="dcg-pillar pillar-context">
+                    <div class="pillar-header">Missing Context</div>
+                    <div class="pillar-overthink-label">Models Overthink</div>
+                    <div class="pillar-body">Models overthink attempting to infer business meaning, map relationships, and determine how concepts connect across tables and systems.</div>
+                </div>
+                <div class="dcg-pillar pillar-governance">
+                    <div class="pillar-header">Unclear Governance</div>
+                    <div class="pillar-overthink-label">Models Overthink</div>
+                    <div class="pillar-body">Models overthink by spending additional reasoning cycles evaluating permissions, exploring unnecessary objects, and second-guessing whether certain data should be accessed or surfaced.</div>
+                </div>
+            </div>
+
+            <div class="dcg-closing-loud">
+                Smart Tokens helps customers reduce overthinking. Instead of evaluating and implementing another tool, customers can keep their current AI workflow, point their AI agents and chatbots to the Cortex REST API, and quickly see lower token usage, better answers, fewer hallucinations, and a more secure AI experience inside Snowflake.
+            </div>
+        </div>
+
+
+        <!-- PITCH IT SECTION -->
+        <div class="pitch-section">
+            <div class="pitch-header">PITCH IT</div>
+
+            <div class="pitch-urgency">
+                <div class="pitch-urgency-line">Your models are overthinking.</div>
+                <div class="pitch-urgency-sub">They are burning tokens trying to find the right data, understand the business context, and figure out what they are allowed to access.</div>
+                <div class="pitch-snowflake">Snowflake can help.</div>
+                <div class="pitch-value">With Smart Tokens, customers can reduce token usage, improve answer quality, reduce hallucinations, and keep AI workflows governed, secure, and auditable.</div>
+            </div>
+
+
+
+
+
+            <div class="pitch-copy">
+                <div class="pitch-copy-title">Core Pitch</div>
+                <p>Your AI agents are already trying to answer business questions against Snowflake. The problem is that without the right data, context, and governance in the flow, models overthink. They spend more tokens than needed, produce less trusted answers, and create governance questions.</p>
+                <p>Smart Tokens make this simple. Keep using your AI coding agent, whether that is Claude Code, Codex, Cursor, or another tool. Instead of letting the agent rely on generic inference, point it to Snowflake through the Cortex REST API and use a Semantic View. When the workflow qualifies, customers can get the benefit of Smart Tokens: lower token usage, better results, stronger governance, security, and auditability.</p>
+            </div>
+
+
+            <div class="pitch-objections">
+                <div class="pitch-copy-title">Objection Handling</div>
+                <div class="pitch-objection">
+                    <div class="pitch-objection-q">"Aren't you just adding context?"</div>
+                    <div class="pitch-objection-a">Exactly. That is what your model is missing today. But this is not just about adding context. When tokens qualify as Smart Tokens, customers do not just save money on inference. They also get better answers, better performance, stronger governance, security, and auditability because the data, context, and execution stay closer together inside Snowflake.</div>
+                </div>
+                <div class="pitch-objection">
+                    <div class="pitch-objection-q">"We want a standalone context layer that is not locked into Snowflake, so we can keep flexibility across data platforms, models, and applications."</div>
+                    <div class="pitch-objection-a">I understand the need for flexibility. You want the freedom to use different models, apps, and platforms without feeling locked in. But for the workflows already using Snowflake data, adding a third-party context layer can create more complexity. Now requests move between the AI agent, model provider, context layer, and data layer. That raises questions around security, governance, auditability, ownership of definitions, and added cost.<br><br>Our recommendation is to prove the value first with what you already have. Keep using your AI coding agent or chatbot and leverage Smart Tokens.<br><br>You still keep flexibility at the model and application layer, but you avoid fragmenting the data, context, and governance layer that makes enterprise AI trusted.</div>
+                </div>
+            </div>
+
+            <div class="pitch-test">
+                <div class="pitch-test-sides">
+                    <div class="pitch-test-side pitch-test-customer">
+                        <div class="pitch-test-icon">&#128100;</div>
+                        <div class="pitch-test-label">Customer</div>
+                        <div class="pitch-test-quote">"Ok, this sounds great. How can I test Smart Tokens?"</div>
+                    </div>
+                    <div class="pitch-test-side pitch-test-sales">
+                        <div class="pitch-test-icon">&#10052;</div>
+                        <div class="pitch-test-label">Sales Team</div>
+                        <div class="pitch-test-answer">
+                            <p>Work with our SEs and FDEs. We will review your current AI workflow, including the coding agent or chatbot you are using, how it connects to Snowflake, the use case you care about, the data required, and the questions your users typically ask.</p>
+                            <p>From there, we will help configure a quick POC using the Cortex REST API and Semantic Views so the workflow can qualify for Smart Tokens. The goal is simple: show the impact quickly with lower token usage, better answers, and governed, auditable AI inside Snowflake.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+<script>
+function animateCounter(el, target, duration) {
+    let start = 0;
+    const startTime = performance.now();
+    function update(now) {
+        const elapsed = (now - startTime) % (duration + 1000);
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        el.textContent = current.toLocaleString();
+        requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
+animateCounter(document.getElementById('generic-count'), 47291, 3500);
+animateCounter(document.getElementById('smart-count'), 382, 1200);
+</script>
+</body>
+</html>
