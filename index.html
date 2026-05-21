@@ -1487,6 +1487,115 @@
             letter-spacing: 0.5px;
         }
 
+        @media (max-width: 900px) {
+            body {
+                padding: 20px 16px;
+            }
+
+            .header h1 {
+                font-size: 2.4rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .header .intro {
+                font-size: 0.85rem;
+                letter-spacing: 3px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .token-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .competition-content {
+                grid-template-columns: 1fr !important;
+            }
+
+            .competition-title {
+                font-size: 1.6rem !important;
+            }
+
+            .context-loss-title {
+                font-size: 1.6rem !important;
+            }
+
+            .context-loss-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .dcg-title {
+                font-size: 1.6rem !important;
+            }
+
+            .dcg-pillars {
+                grid-template-columns: 1fr !important;
+            }
+
+            .pitch-header {
+                font-size: 1.8rem !important;
+            }
+
+            .pitch-test-sides {
+                grid-template-columns: 1fr;
+            }
+
+            .arch-flow {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .arch-flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .token-flow-container {
+                flex-direction: column;
+            }
+
+            .token-flow-side {
+                min-width: unset;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 14px 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .competition-title,
+            .context-loss-title,
+            .dcg-title {
+                font-size: 1.3rem !important;
+            }
+
+            .pitch-header {
+                font-size: 1.5rem !important;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            .pitch-section {
+                padding: 16px;
+            }
+        }
+
     </style>
 </head>
 <body>
