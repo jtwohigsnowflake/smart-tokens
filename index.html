@@ -1487,6 +1487,216 @@
             letter-spacing: 0.5px;
         }
 
+        /* PLAYBOOK SECTION */
+        .playbook-section {
+            margin-bottom: 48px;
+            padding: 36px;
+            background: linear-gradient(135deg, #0d1225, #111a30);
+            border: 1px solid #ffffff10;
+            border-radius: 16px;
+        }
+
+        .playbook-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 32px;
+        }
+
+        .playbook-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .playbook-card {
+            padding: 24px;
+            border-radius: 12px;
+            background: #ffffff06;
+            border: 1px solid #ffffff12;
+        }
+
+        .playbook-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .playbook-quotes {
+            margin-bottom: 20px;
+        }
+
+        .playbook-quote {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: #fbbf24;
+            padding: 8px 12px;
+            background: #fbbf2408;
+            border-left: 2px solid #fbbf2444;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .playbook-introduced {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff66;
+            margin-bottom: 10px;
+        }
+
+        .playbook-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .playbook-pill {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #ffffff10;
+            border: 1px solid #ffffff20;
+            color: #ffffffcc;
+        }
+
+        .playbook-pill-cyan {
+            background: #29B5E810;
+            border-color: #29B5E840;
+            color: #29B5E8;
+        }
+
+        .playbook-meter {
+            margin-bottom: 20px;
+        }
+
+        .playbook-meter-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff55;
+            margin-bottom: 6px;
+        }
+
+        .playbook-meter-bar {
+            height: 6px;
+            background: #ffffff10;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .playbook-meter-fill {
+            height: 100%;
+            border-radius: 3px;
+            animation: meterGrow 2s ease-out forwards;
+        }
+
+        .playbook-meter-credits {
+            width: 72%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+        }
+
+        .playbook-meter-tokens {
+            width: 85%;
+            background: linear-gradient(90deg, #29B5E8, #6dd5fa);
+        }
+
+        @keyframes meterGrow {
+            from { transform: scaleX(0); transform-origin: left; }
+            to { transform: scaleX(1); transform-origin: left; }
+        }
+
+        .playbook-meter-caption {
+            font-size: 0.6rem;
+            color: #ffffff44;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .playbook-takeaway {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f59e0b;
+            line-height: 1.5;
+        }
+
+        .playbook-takeaway-cyan {
+            color: #29B5E8;
+        }
+
+        .playbook-bridge {
+            text-align: center;
+            padding: 24px 0;
+            margin-bottom: 24px;
+            border-top: 1px solid #ffffff0a;
+            border-bottom: 1px solid #ffffff0a;
+        }
+
+        .playbook-bridge-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .playbook-bridge-sub {
+            font-size: 0.8rem;
+            color: #ffffff88;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .playbook-mapping {
+            padding: 20px 24px;
+            background: #ffffff04;
+            border: 1px solid #ffffff0a;
+            border-radius: 10px;
+        }
+
+        .playbook-mapping-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff55;
+            margin-bottom: 14px;
+        }
+
+        .playbook-mapping-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .playbook-mapping-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.8rem;
+        }
+
+        .playbook-map-from {
+            color: #f59e0b;
+            font-weight: 600;
+            min-width: 160px;
+        }
+
+        .playbook-map-arrow {
+            color: #ffffff44;
+        }
+
+        .playbook-map-to {
+            color: #29B5E8;
+            font-weight: 600;
+        }
+
         @media (max-width: 900px) {
             body {
                 padding: 20px 16px;
@@ -1561,6 +1771,22 @@
             .token-flow-side {
                 min-width: unset;
                 width: 100%;
+            }
+
+            .playbook-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .playbook-title {
+                font-size: 1.6rem;
+            }
+
+            .playbook-section {
+                padding: 20px;
+            }
+
+            .playbook-map-from {
+                min-width: 120px;
             }
         }
 
@@ -1704,6 +1930,85 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- WE BUILT OUR BUSINESS THIS WAY SECTION -->
+        <div class="playbook-section">
+            <div class="playbook-title">We Built Our Business This Way</div>
+
+            <div class="playbook-cards">
+                <div class="playbook-card playbook-card-credits">
+                    <div class="playbook-card-title">Inefficient Credits</div>
+                    <div class="playbook-quotes">
+                        <div class="playbook-quote">"Our queries are slow."</div>
+                        <div class="playbook-quote">"This is getting expensive."</div>
+                    </div>
+                    <div class="playbook-introduced">We introduced:</div>
+                    <div class="playbook-pills">
+                        <span class="playbook-pill">Clustering</span>
+                        <span class="playbook-pill">Query Acceleration Service</span>
+                        <span class="playbook-pill">Search Optimization</span>
+                    </div>
+                    <div class="playbook-meter">
+                        <div class="playbook-meter-label">Credit Efficiency</div>
+                        <div class="playbook-meter-bar">
+                            <div class="playbook-meter-fill playbook-meter-credits"></div>
+                        </div>
+                        <div class="playbook-meter-caption">Waste reduced</div>
+                    </div>
+                    <div class="playbook-takeaway">We made credits smarter, faster, and more efficient.</div>
+                </div>
+
+                <div class="playbook-card playbook-card-tokens">
+                    <div class="playbook-card-title">Inefficient Tokens</div>
+                    <div class="playbook-quotes">
+                        <div class="playbook-quote">"Our AI gives inconsistent answers."</div>
+                        <div class="playbook-quote">"Every prompt burns too many tokens."</div>
+                        <div class="playbook-quote">"The model keeps rediscovering context we already know."</div>
+                    </div>
+                    <div class="playbook-introduced">We introduced:</div>
+                    <div class="playbook-pills">
+                        <span class="playbook-pill playbook-pill-cyan">Semantic Views</span>
+                        <span class="playbook-pill playbook-pill-cyan">Governance-Aware Context</span>
+                        <span class="playbook-pill playbook-pill-cyan">Model Optionality</span>
+                        <span class="playbook-pill playbook-pill-cyan">Cortex Search</span>
+                    </div>
+                    <div class="playbook-meter">
+                        <div class="playbook-meter-label">Token Efficiency</div>
+                        <div class="playbook-meter-bar">
+                            <div class="playbook-meter-fill playbook-meter-tokens"></div>
+                        </div>
+                        <div class="playbook-meter-caption">Waste reduced</div>
+                    </div>
+                    <div class="playbook-takeaway playbook-takeaway-cyan">Now we make tokens smarter, cheaper, and more accurate.</div>
+                </div>
+            </div>
+
+            <div class="playbook-bridge">
+                <div class="playbook-bridge-text">From smarter credits to smarter tokens.</div>
+                <div class="playbook-bridge-sub">Snowflake optimized compute by helping customers use fewer credits for better performance. Smart Tokens apply the same philosophy to enterprise AI: give the model the context it needs up front, so it thinks less, spends less, and knows more.</div>
+            </div>
+
+            <div class="playbook-mapping">
+                <div class="playbook-mapping-label">Same playbook, new unit of value</div>
+                <div class="playbook-mapping-rows">
+                    <div class="playbook-mapping-row">
+                        <span class="playbook-map-from">Clustering</span>
+                        <span class="playbook-map-arrow">→</span>
+                        <span class="playbook-map-to">Semantic Views</span>
+                    </div>
+                    <div class="playbook-mapping-row">
+                        <span class="playbook-map-from">Query Acceleration</span>
+                        <span class="playbook-map-arrow">→</span>
+                        <span class="playbook-map-to">Model Optionality</span>
+                    </div>
+                    <div class="playbook-mapping-row">
+                        <span class="playbook-map-from">Search Optimization</span>
+                        <span class="playbook-map-arrow">→</span>
+                        <span class="playbook-map-to">Cortex Search</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- COMPETITION SECTION -->
